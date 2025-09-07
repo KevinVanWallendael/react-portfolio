@@ -1,0 +1,75 @@
+import { useEffect, useState } from 'react';
+
+interface SwipeHandlers {
+  onSwipeLeft?: () => void;
+  onSwipeRight?: () => void;
+  onSwipeUp?: () => void;
+  onSwipeDown?: () => void;
+}
+
+export const useMobileSwipe = (handlers: SwipeHandlers) => {
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
+  const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
+
+  // Minimum distance for a swipe
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY
+    });
+  };
+
+  const onTouchMove = (e: TouchEvent) => {
+    setTouchEnd({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY
+    });
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distanceX = touchStart.x - touchEnd.x;
+    const distanceY = touchStart.y - touchEnd.y;
+    const isLeftSwipe = distanceX > minSwipeDistance;
+    const isRightSwipe = distanceX < -minSwipeDistance;
+    const isUpSwipe = distanceY > minSwipeDistance;
+    const isDownSwipe = distanceY < -minSwipeDistance;
+
+    // Determine if the swipe is more horizontal or vertical
+    const isHorizontal = Math.abs(distanceX) > Math.abs(distanceY);
+
+    if (isHorizontal) {
+      if (isLeftSwipe && handlers.onSwipeLeft) {
+        handlers.onSwipeLeft();
+      }
+      if (isRightSwipe && handlers.onSwipeRight) {
+        handlers.onSwipeRight();
+      }
+    } else {
+      if (isUpSwipe && handlers.onSwipeUp) {
+        handlers.onSwipeUp();
+      }
+      if (isDownSwipe && handlers.onSwipeDown) {
+        handlers.onSwipeDown();
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('touchstart', onTouchStart, { passive: true });
+    document.addEventListener('touchmove', onTouchMove, { passive: true });
+    document.addEventListener('touchend', onTouchEnd, { passive: true });
+
+    return () => {
+      document.removeEventListener('touchstart', onTouchStart);
+      document.removeEventListener('touchmove', onTouchMove);
+      document.removeEventListener('touchend', onTouchEnd);
+    };
+  }, [touchStart, touchEnd, handlers]);
+
+  return { touchStart, touchEnd };
+};

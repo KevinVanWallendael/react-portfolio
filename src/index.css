@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Portfolio Dark Theme Design System with Neon Accents */
+    --background: 220 15% 8%;
+    --foreground: 0 0% 95%;
+
+    --card: 220 15% 12%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 220 15% 12%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 240 100% 70%;
+    --primary-foreground: 220 15% 8%;
+
+    --secondary: 260 100% 70%;
+    --secondary-foreground: 220 15% 8%;
+
+    --muted: 220 15% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 280 80% 65%;
+    --accent-foreground: 220 15% 8%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 95%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 18%;
+    --ring: 240 100% 70%;
+
+    /* Neon Color Palette - Blue-Purple Focused */
+    --neon-blue: 240 100% 70%;
+    --neon-purple: 260 100% 70%;
+    --neon-violet: 280 80% 65%;
+    --neon-cyan: 200 100% 70%;
+    --neon-pink: 320 70% 75%;
+    --neon-green: 120 100% 70%;
+
+    --radius: 0.75rem;
+
+    /* Custom Portfolio Tokens */
+    --starry-texture: url('/src/assets/starry-bg.jpg');
+    --gradient-hero: linear-gradient(135deg, hsl(var(--neon-blue) / 0.15), hsl(var(--neon-purple) / 0.1));
+    --gradient-neon: linear-gradient(135deg, hsl(var(--neon-blue) / 0.3), hsl(var(--neon-purple) / 0.2));
+    --gradient-rainbow: linear-gradient(135deg, hsl(var(--neon-blue) / 0.3), hsl(var(--neon-purple) / 0.3), hsl(var(--neon-violet) / 0.2));
+    --gradient-card: linear-gradient(145deg, hsl(220 15% 12%), hsl(220 15% 15%));
+    --shadow-elegant: 0 25px 50px -12px hsl(220 15% 5% / 0.8);
+    --shadow-glow: 0 0 40px hsl(var(--neon-blue) / 0.3);
+    --shadow-neon-blue: 0 0 30px hsl(var(--neon-blue) / 0.4);
+    --shadow-neon-purple: 0 0 30px hsl(var(--neon-purple) / 0.4);
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Typography Scale */
+    --font-display: 'Inter', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+
+    /* Spacing Scale */
+    --space-hero: 8rem;
+    --space-section: 6rem;
+    --space-component: 3rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: auto; /* Disable to use custom scroll for mobile */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    background-image: var(--starry-texture);
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    overflow-x: hidden;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    /* Ensure consistent mobile rendering */
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
+  }
+
+  .hero-heading {
+    @apply text-6xl md:text-7xl font-black bg-gradient-to-r from-neon-blue via-neon-purple to-neon-violet bg-clip-text text-transparent;
+  }
+
+  .section-heading {
+    @apply text-4xl md:text-5xl font-bold text-foreground;
+  }
+
+  .card-elegant {
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-elegant);
+    transition: var(--transition-smooth);
+    border: 1px solid hsl(var(--border));
+  }
+
+  .card-elegant:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-neon-purple), var(--shadow-elegant);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 30px hsl(var(--neon-blue) / 0.4);
+  }
+
+  .flip-enter {
+    transform: rotateX(-90deg);
+    opacity: 0;
+  }
+
+  .flip-enter-active {
+    transform: rotateX(0deg);
+    opacity: 1;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .flip-exit {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+
+  .flip-exit-active {
+    transform: rotateX(90deg);
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .hero-heading {
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      line-height: 1.1;
+    }
+
+    .section-heading {
+      font-size: clamp(2rem, 6vw, 3rem);
+    }
+
+    /* Improve tap targets */
+    button, a, [role="button"] {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Prevent zoom on input focus */
+    input, select, textarea {
+      font-size: 16px;
+    }
+
+    /* Ensure fixed elements stay fixed on mobile */
+    .mobile-fixed {
+      position: fixed !important;
+      transform: translateZ(0);
+      will-change: transform;
+      backface-visibility: hidden;
+    }
+
+    /* Improve mobile touch scrolling */
+    body {
+      scroll-behavior: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+    }
+
+    /* Better scroll performance */
+    * {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+    }
+  }
+
+  /* Touch-friendly focus states */
+  @media (hover: none) and (pointer: coarse) {
+    button:hover {
+      transform: none;
+    }
+    
+    button:active {
+      transform: scale(0.98);
+    }
+  }
+}
