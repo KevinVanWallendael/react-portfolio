@@ -19,7 +19,7 @@ const ProjectsSection = () => {
       category: "Financial Analytics",
       icon: TrendingUp,
       links: {
-        demo: "https://kevinvw.streamlit.app/",
+        demo: "https://kevinvw.streamlit.app/?embed=true",
         github: "https://github.com/KevinVanWallendael/StockPortfolioAnalyzer"
       }
     },
@@ -32,7 +32,7 @@ const ProjectsSection = () => {
       category: "Data Engineering",
       icon: Database,
       links: {
-        demo: "https://kevinvw.streamlit.app/housing_project",
+        demo: "https://kevinvw.streamlit.app/housing_project/?embed=true",
         github: "https://github.com/KevinVanWallendael/OtodomScraper"
       }
     },
@@ -45,7 +45,7 @@ const ProjectsSection = () => {
       category: "Machine Learning",
       icon: Brain,
       links: {
-        demo: "https://kevinvw.streamlit.app/housing_project",
+        demo: "https://kevinvw.streamlit.app/housing_project/?embed=true",
         github: "https://github.com/KevinVanWallendael/HousingPricePrediction"
       }
     }
