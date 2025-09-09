@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ChevronRight, Github, ExternalLink, BarChart3, Database, Brain } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { ChevronLeft, ChevronRight, Github, ExternalLink, BarChart3, Database, Brain, BookOpen } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile"; // Corrected import path
 
 const BlogSection = () => {
   const isMobile = useIsMobile();
@@ -141,6 +141,41 @@ const BlogSection = () => {
           "Model evaluation: Using metrics like Mean Absolute Error (MAE) to assess prediction accuracy."
         ]
       }
+    },
+    {
+      id: 3,
+      title: "The Impact of CEO Tweets on Stock Returns",
+      subtitle: "An Event Study Analysis - Master Thesis",
+      category: "Academic Research",
+      icon: BookOpen,
+      tags: ["Event Study", "Finance", "Social Media", "Sentiment Analysis", "Master Thesis"],
+      pdfUrl: "/documents/Master_Thesis_Kevin_Van_Wallendael.pdf",
+      content: {
+        intro: "Twitter, founded in 2006, has become one of the most popular social media platforms, with over 415 million users worldwide (Statista, 2023). It is widely used by individuals, including celebrities, CEOs, and politicians, as a channel for information sharing and communication. The influence of social media information on financial markets has been studied for decades. This dissertation investigates the impact of CEO tweets on their respective company stock returns.",
+        description: "This dissertation investigates the impact of CEO tweets on stock returns, focusing on the relationship between CEO sentiment expressed on Twitter and the corresponding stock market performance of their respective companies. The study utilizes an event study methodology and categorizes CEO tweets into positive, neutral, and negative sentiments. The findings indicate that while there is evidence of a weak association between CEO sentiment and stock returns, the overall impact of CEO tweets is statistically insignificant.",
+        features: [
+          {
+            title: "Research Hypotheses",
+            points: [
+              "H1: CEO tweets have a statistically significant impact on stock returns.",
+              "H2: The stock prices of companies experience a positive impact when a CEO tweets with a positive sentiment.",
+              "H3: The stock prices of companies experience a negative impact when a CEO tweets with a negative sentiment.",
+              "H4: The stock prices of companies experience minimal impact when a CEO tweets with a neutral sentiment.",
+              "H5: The abnormality caused by a CEO tweet dissipates within a short period."
+            ]
+          }
+        ],
+        impact: [
+          "The findings suggest that CEO sentiment on Twitter has minimal predictive power and limited influence on stock market performance.",
+          "Results support the rejection of H1, H2, and H4, but support the acceptance of H3 (negative sentiment has a slight negative impact) and H5 (abnormality dissipates quickly).",
+          "This study contributes empirical evidence that CEO sentiment on Twitter has a limited impact, highlighting the importance of considering other factors in financial markets."
+        ],
+        technical: [
+          "Methodology: An event study was conducted for CEOs like Elon Musk, Tim Cook, and Jeff Bezos.",
+          "Analysis Tools: Pearson correlation coefficients and Granger causality tests were used to assess the strength and predictive power of sentiment.",
+          "Conclusion: Regardless of sentiment, CEO tweets did not have a statistically significant effect on their company's stock performance during three-day and one-day event windows."
+        ]
+      }
     }
   ];
 
@@ -206,15 +241,28 @@ const BlogSection = () => {
                           >
                             {isActive && isExpanded ? 'Show Less' : 'Read More'}
                           </Button>
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            className="text-xs p-0 h-auto"
-                            onClick={() => window.open(article.githubUrl, '_blank')}
-                          >
-                            <Github size={12} className="mr-1" />
-                            Code
-                          </Button>
+                          {article.githubUrl && (
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="text-xs p-0 h-auto"
+                              onClick={() => window.open(article.githubUrl, '_blank')}
+                            >
+                              <Github size={12} className="mr-1" />
+                              Code
+                            </Button>
+                          )}
+                          {article.pdfUrl && (
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="text-xs p-0 h-auto"
+                              onClick={() => window.open(article.pdfUrl, '_blank')}
+                            >
+                              <ExternalLink size={12} className="mr-1" />
+                              Thesis
+                            </Button>
+                          )}
                         </div>
                         {!isActive && (
                           <Button
@@ -286,15 +334,27 @@ const BlogSection = () => {
                   ))}
                 </div>
 
-                {/* GitHub Link */}
-                <Button 
-                  variant="nav" 
-                  className="gap-2 min-h-[44px] text-sm md:text-base"
-                  onClick={() => window.open(currentArticle.githubUrl, '_blank')}
-                >
-                  <Github size={16} className="md:w-[18px] md:h-[18px]" />
-                  View on GitHub
-                </Button>
+                {/* Action Button */}
+                {currentArticle.githubUrl && (
+                  <Button 
+                    variant="nav" 
+                    className="gap-2 min-h-[44px] text-sm md:text-base"
+                    onClick={() => window.open(currentArticle.githubUrl, '_blank')}
+                  >
+                    <Github size={16} className="md:w-[18px] md:h-[18px]" />
+                    View on GitHub
+                  </Button>
+                )}
+                {currentArticle.pdfUrl && (
+                  <Button 
+                    variant="nav" 
+                    className="gap-2 min-h-[44px] text-sm md:text-base"
+                    onClick={() => window.open(currentArticle.pdfUrl, '_blank')}
+                  >
+                    <ExternalLink size={16} className="md:w-[18px] md:h-[18px]" />
+                    View Thesis
+                  </Button>
+                )}
               </div>
 
               {/* Article Body */}
@@ -336,7 +396,7 @@ const BlogSection = () => {
                   <ul className="space-y-2 md:space-y-3">
                     {currentArticle.content.impact.map((item, index) => (
                       <li key={index} className="flex items-start gap-2 md:gap-3">
-                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-accent rounded-full mt-1.5 md:mt-2 flex-shrink-0"></div>
+                        <div className="w-1.push h-1.5 md:w-2 md:h-2 bg-accent rounded-full mt-1.5 md:mt-2 flex-shrink-0"></div>
                         <span className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
                           {item}
                         </span>
